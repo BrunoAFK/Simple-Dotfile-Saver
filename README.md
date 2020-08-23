@@ -49,7 +49,6 @@ This text is taken from [Getting Started With Dotfiles](https://medium.com/@webp
 
 > Dotfiles are used to customize your system. The “dotfiles” name is derived from the configuration files in Unix-like systems that start with a dot (e.g. .bash_profile and .gitconfig). For normal users, this indicates these are not regular documents, and by default are hidden in directory listings. For power users, however, they are a core tool belt.
 > There is a large dotfiles community. And with it comes a large number of repositories and registries containing many organized dotfiles, advanced installation scripts, dotfile managers, and mashups of things people collect in their own repositories.
-> This article will try to give an introduction to dotfiles in general, by means of creating a basic dotfiles repository with an installation script. It is only meant to provide some inspiration, some pointers to what is possible, and where to look for when creating your own.
 
 There are many tools and ways to save your configurations. You can read more about it here:
 
@@ -71,7 +70,7 @@ Just run this command
 
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/script.sh)
+bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh)
 ```
 
 You will be asked to enter your git repo url. It needs to be in this format:

@@ -15,11 +15,11 @@ echo "This will create simple dotfile saving evn for your system. For default lo
 
 function prerequets {
     if [[ ! -x $(which curl) ]]; then
-        echo "You need to install curl. Please visit https://github.com/BrunoAFK/Simple-Dotfile-Saver and follow instructions."
+        echo "You need to install curl. Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions."
         exit 1
     fi
     if [[ ! -x $(which git) ]]; then
-        echo "You need to install git. Please visit https://github.com/BrunoAFK/Simple-Dotfile-Saver and follow instructions."
+        echo "You need to install git. Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions."
         exit 1
     fi
 }
@@ -29,7 +29,7 @@ function git_repo {
     $git_location ls-remote "$git_repo" > /dev/null 2>&1
     if [ "$?" -ne 0 ]; then
         echo "[ERROR] Unable to read from '$git_repo'"
-        echo "Pleas follow guide in the https://github.com/BrunoAFK/Simple-Dotfile-Saver, or try again"
+        echo "Pleas follow guide in the https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites, or try again"
         exit 1;
     else
         echo "Your repo url is valid: $git_repo"
@@ -48,7 +48,7 @@ function copy_files {
     echo
     echo "Copy script from git"
     echo
-    curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/Simple-Dotfile-Saver/master/script.sh
+    curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/script.sh
 }
 
 function permissions {
@@ -194,7 +194,7 @@ function finished {
 
     After this you can go and add files you want to watch in your $working_dir/.dotfiles-location . Dotfiles-location is file where you will list path to every folder or file you want to save on your git repo (path relative to $working_dir). Be careful that you are not sending any private data (for example ssh keys) to your git repo.
 
-    Have a fun :) https://github.com/BrunoAFK/Simple-Dotfile-Saver
+    Have a fun :) https://github.com/BrunoAFK/simple_dotfile_saver
 
     "
     echo
@@ -214,7 +214,7 @@ function collection {
 }
 function abort {
     echo "
-    Please visit https://github.com/BrunoAFK/Simple-Dotfile-Saver and follow instructions
+    Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions
     "
 }
 
