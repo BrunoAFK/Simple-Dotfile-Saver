@@ -1,5 +1,5 @@
 #!/bin/bash
-working_dir=$HOME/test
+working_dir=$HOME
 dotfiles_location=$working_dir/.dotfiles 
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
