@@ -3,6 +3,7 @@ working_dir=$HOME/test
 dotfiles_location=$working_dir/.dotfiles 
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
+branch="dev"
 
 if [[ $(uname) == 'Linux' ]]; then
     IS_LINUX=1
@@ -48,7 +49,7 @@ function copy_files {
     echo
     echo "Copy script from git"
     echo
-    curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/script.sh
+    curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/$branch/script.sh
 }
 
 function permissions {
