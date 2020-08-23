@@ -1,5 +1,4 @@
 #!/bin/bash
-
 . $(dirname "$0")/config.sh
 git_location=$(which git)
 

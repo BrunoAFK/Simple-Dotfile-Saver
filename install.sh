@@ -3,7 +3,7 @@ working_dir=$HOME/test
 dotfiles_location=$working_dir/.dotfiles 
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
-branch="dev"
+branch="master"
 
 if [[ $(uname) == 'Linux' ]]; then
     IS_LINUX=1
