@@ -1,5 +1,5 @@
 #!/bin/bash
-working_dir=$HOME
+working_dir=$HOME/test
 dotfiles_location=$working_dir/.dotfiles 
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
@@ -49,6 +49,7 @@ function copy_files {
     echo "Copy script from git"
     echo
     curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/script.sh
+    sed -i "s~config.sh~$dotfiles_script_location/config.sh~" $dotfiles_script_location/script.sh
 }
 
 function permissions {
@@ -177,7 +178,7 @@ function cron {
         #write out current crontab
         crontab -l > $tmpCron
         #echo new cron into cron file
-        echo "*/3 * * * * sh $scriptLocation" >> $tmpCron
+        echo "*/3 * * * * sh $scriptLocation  2>&1 | /usr/bin/logger -t dotfile-saver " >> $tmpCron
         #install new cron file
         crontab $tmpCron
         rm $tmpCron
