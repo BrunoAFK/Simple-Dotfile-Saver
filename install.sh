@@ -49,7 +49,6 @@ function copy_files {
     echo "Copy script from git"
     echo
     curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/script.sh
-    sed -i "s~config.sh~$dotfiles_script_location/config.sh~" $dotfiles_script_location/script.sh
 }
 
 function permissions {

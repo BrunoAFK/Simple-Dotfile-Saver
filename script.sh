@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config.sh
+. $(dirname "$0")/config.sh
 git_location=$(which git)
 
 for n in $(cat $path_location)
