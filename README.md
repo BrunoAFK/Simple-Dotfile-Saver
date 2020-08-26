@@ -24,22 +24,6 @@
 ## Basic Description
 There are plenty of ways to save dotfiles at the moment, but they seemed quite big for what I needed. All I need is the ability to choose which configs to backup (in a simpler way), to automatically watch these files in the background and push to git as soon as we see there is a change.
 
-### What will the script do?
-
-1. Checking curl and git installation
-2. validating given remote git repo URL
-3. Create all folders that we need (2 of them)
-4. Download the main script that will push updates to your repo
-5. Giving permissions to that script
-6. We will create the external file with variables (in the future i will add more things, so this will be nice to have)
-7. Script will create basic .dotfiles-location file
-8. Init git bare repo
-9. Removing untracked files from the status
-10. Add your remote repo
-11. Stash all files from .dotfiles-location to stash
-12. Make initial commit
-13. Push files to new git repo
-14. Create a cron job
 
 
 ## What are dotfiles
@@ -61,13 +45,12 @@ There are many tools and ways to save your configurations. You can read more abo
 
 Before you even start you need to have a couple of things:
 - Mac or Linux OS (tested on macOS and PopOS)
-- Installed git and curl
-- Created repo ([Gitlab](https://gitlab.com/) or [Github](https://github.com/))
+- Installed **git** and **curl**
+- Created repo on any git host ([Gitlab](https://gitlab.com/) or [Github](https://github.com/)).
 
 ### How to install
 
 Just run this command
-
 
 ```
 bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh)
@@ -80,6 +63,113 @@ You will be asked to enter your git repo url. It needs to be in this format:
 And that's it.
 
 Cron is checking for new updates every 3 minutes.
+
+#### Custom path
+
+If run the default command mentiond above, your working tree (main directory) will be your home direcotry. If you want to change that, you can use this comand (and modify the last part with abosluth path you want to use)
+
+```
+bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh --dir /path )
+```
+
+Make sure that you have all permissions as an user for that directory.
+
+### What will the script do?
+
+1. Checking curl and git installation
+2. validating given remote git repo URL
+3. Create all folders that we need (2 of them)
+4. Download the main script that will push updates to your repo
+5. Giving permissions to that script
+6. We will create the external file with variables (in the future i will add more things, so this will be nice to have)
+7. Script will create basic .dotfiles-location file
+8. Init git bare repo
+9. Removing untracked files from the status
+10. Add your remote repo
+11. Stash all files from .dotfiles-location to stash
+12. Make initial commit
+13. Push files to new git repo
+14. Create a cron job
+
+## Tips & Tricks
+
+### Backup files outside working tree
+If you want to backup files outside of home (or other working) directory, you can do that with creating one folder that you will store all symlinks. In my case, I create folder .backup, and i there story every symlink to important configs.
+
+To do that just create directory
+
+```
+mkdir $HOME/.backup
+```
+
+Add directory to .dotfiles-location file
+
+```
+echo ".backup" >> $HOME/.dotfiles-location
+```
+
+Then create symlink (e.g. resolve file)
+
+```
+sudo ln -s /etc/resolv.conf $HOME/.backup   
+```
+
+### Gitignore
+Sometimes you add whole folder to .dotfiles-location, but that one file inside the folder is somthing what you dont want to backup. In that case you can add files to gitignore file.
+
+Create gitignore file inside the working directory (working tree).
+
+```
+touch $HOME/.gitignore
+```
+
+After you add files inside the .gitignore, then you can clear git cache to stop commiting changes to that file
+
+```
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rm -r --cached .
+```
+
+### Control your backup - Alias
+If you want to have quick access to all what you need for saving dot files, you can add copule of useful alias to your .bashrc or .zshrc file.
+
+Add alias to bashrc:
+
+```
+echo '
+alias dot="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias dot-add="echo \$1 >> $HOME/.dotfiles-location"
+alias dot-remove="echo \$1 >> $HOME/.gitignore && /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rm -r --cached . "
+dot-link () {
+    sudo ln -s $1 $HOME/.backup
+}
+' >> $HOME/.bashrc
+```
+
+Add alias to zshrc:
+
+```
+echo '
+alias dot="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias dot-add="echo \$1 >> $HOME/.dotfiles-location"
+alias dot-remove="echo \$1 >> $HOME/.gitignore && /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rm -r --cached . "
+dot-link () {
+    sudo ln -s $1 $HOME/.backup
+}
+' >> $HOME/.zshrc
+```
+
+**dot [GIT COMMAND]**
+I'm using dot command as shortcut for long git command. If I need to see status of my dotfiles repo i just need to use ```dot status`` and thats it. You can use this with any git command.
+
+**dot-add [LOCATION TO FILE OR FOLDER]**
+This will add new file or folder to track inside the .dotfiles-location. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
+
+**dot-remove [LOCATION TO FILE OR FOLDER]**
+This will add file to gitignore and then clear git cache so that we stop following changes inside that file. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
+
+**dot-link**
+This will create symlink to your backup folder inside the home directory. Just make sure that you are entering the absoluth path (e.g. if you have folder nginx in the etc dir you need to write /etc/nginx). prerequests to this is that you have created .backup directory inside your home directory, and that you add .backup directory to your .dotfiles-location file
+
 
 ## Authors
 
