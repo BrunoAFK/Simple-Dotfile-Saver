@@ -1,103 +1,131 @@
 #!/bin/bash
 working_dir=$HOME
-dotfiles_location=$working_dir/.dotfiles 
+dotfiles_location=$working_dir/.dotfiles
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
-branch="master"
+# Check working dir param. Change working dir
+function working-dir() {
+    if [[ -z $1 ]]; then
+        echo "We are using $working_dir as a work tree."
+    else
+        if [[ "$1" = "--dir" || "$1" = "-d" ]]; then
+            if [[ -z $2 ]]; then
+                echo "You need to enter abosluth path (e.g. /etc/nginx)"
+                exit 1
+            elif [[ "$2" != /* ]]; then
+                echo "You need to enter abosluth path (e.g. /etc/nginx)"
+                exit 1
+            else
+                echo "Work tree. is now $2."
+                echo "Make sure that you have all permissions as a user to use that working directory."
+                working_dir=$2
+            fi
+        else
+            echo "Wrong paramather. You can use --dir [abosluth path to directory] or -d [abosluth path to directory]"
+            exit 1
+        fi
+    fi
+}
+# Abort messages if needed
+function abort-prerequests() {
+    echo "
+    Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions
+    "
+}
+function abort-abort() {
+    echo
+    echo
+    echo "
 
+           ,
+          ~)
+           (_---;
+Llama       /|~||
+           / / /|
+                        
+"
+echo
+echo
+echo "Good bye!"
+}
+function abort-platform() {
+    echo "
+    Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions
+    "
+}
+# Checking OS
 if [[ $(uname) == 'Linux' ]]; then
     IS_LINUX=1
 fi
 if [[ $(uname) == 'Darwin' ]]; then
     IS_MAC=1
 fi
-
-echo "This will create simple dotfile saving evn for your system. For default location we will use your $working_dir directory."
-
-function prerequets {
+# Hello
+echo "This script will try to help you out with the backup of your config files in the UNIX based systems. To find out more, check out git repo page: https://github.com/BrunoAFK/simple_dotfile_saver"
+echo ""
+# Check prerequets
+function prerequets() {
     if [[ ! -x $(which curl) ]]; then
-        echo "You need to install curl. Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions."
+        echo "You need to install curl"
+        abort-prerequests
         exit 1
     fi
     if [[ ! -x $(which git) ]]; then
-        echo "You need to install git. Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions."
+        echo "You need to install git."
+        abort-prerequests
         exit 1
     fi
 }
-function git_repo {
+# Check if git repo exsits
+function git_repo() {
     gir_repo=
     read -r -p "Enter valid git repo URL: " git_repo
-    $git_location ls-remote "$git_repo" > /dev/null 2>&1
+    $git_location ls-remote "$git_repo" >/dev/null 2>&1
     if [ "$?" -ne 0 ]; then
-        echo "[ERROR] Unable to read from '$git_repo'"
-        echo "Pleas follow guide in the https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites, or try again"
-        exit 1;
+        echo "[ERROR] Unable to access from '$git_repo'"
+        abort-prerequests
+        exit 1
     else
-        echo "Your repo url is valid: $git_repo"
+        echo 
     fi
 }
-
-function create_folders {
-    echo
-    echo "Create folders"
-    echo
+# Create folders
+function create_folders() {
     mkdir -p $dotfiles_location
     mkdir -p $dotfiles_script_location
 }
-
-function copy_files {
-    echo
-    echo "Copy script from git"
-    echo
+# Copy script from git
+function copy_files() {
     curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/$branch/script.sh
 }
-
-function permissions {
-    echo
-    echo "Set permissions"
-    echo
+# Set permissions for the script
+function permissions() {
     chmod +x $dotfiles_script_location/script.sh
 }
-
-function create_var_file {
-    echo
-    echo "Create var file"
-    echo
-    echo '#!/bin/bash' > $dotfiles_script_location/config.sh
-    echo "working_dir=$working_dir" >> $dotfiles_script_location/config.sh
-    echo "dotfiles_location=$dotfiles_location" >> $dotfiles_script_location/config.sh
-    echo "path_location=$working_dir/.dotfiles-location" >> $dotfiles_script_location/config.sh
+# Create file with variables for the script
+function create_var_file() {
+    echo '#!/bin/bash' >$dotfiles_script_location/config.sh
+    echo "working_dir=$working_dir" >>$dotfiles_script_location/config.sh
+    echo "dotfiles_location=$dotfiles_location" >>$dotfiles_script_location/config.sh
+    echo "path_location=$working_dir/.dotfiles-location" >>$dotfiles_script_location/config.sh
 }
-
-function create_list {
-    echo
-    echo "Create list of files we want to backup"
-    echo
-    # Add dotfiles-location to dotfiles-location
-    echo ".dotfiles-location" > $working_dir/.dotfiles-location
+# Create list of files that we will track, and add the same file into that file to track :D
+function create_list() {
+    echo ".dotfiles-location" >$working_dir/.dotfiles-location
 }
-
-function git {
-    echo 
-    echo "Git init for backup files on git"
-    echo
+# Git init, calibrating git status to our needs, adding remote git repo, and initial push
+function git() {
     $git_location init --bare $dotfiles_location
-    echo "Make sure that git status will be showing just what we need"
     $git_location --git-dir=$dotfiles_location --work-tree=$working_dir config --local status.showUntrackedFiles no
-    echo "Adding your remote git repo"
     $git_location --git-dir=$dotfiles_location --work-tree=$working_dir remote add origin $git_repo
-    echo "Make inital push"
     $git_location --git-dir=$dotfiles_location --work-tree=$working_dir add $working_dir/.dotfiles-location
     $git_location --git-dir=$dotfiles_location --work-tree=$working_dir commit -m "Inital automated commit"
     $git_location --git-dir=$dotfiles_location --work-tree=$working_dir push -u origin master
-    }
-
-function cron {
-    echo
-    echo "Lets make cron job for updating dotfiles (every 3 minutes)"
-    echo
+}
+# Create cron job
+function cron() {
     #******************
-    # Mac 
+    # Mac
     #******************
     if [[ $IS_MAC -eq 1 ]]; then
         projectName=dotfile-updater
@@ -114,7 +142,6 @@ function cron {
 
         sudo mkdir -p $logLocation
         sudo chown -R $(echo $user_name):$(echo $user_group) $logLocation
-
 
         echo "Creating autostart script"
         function llamaDaemons() {
@@ -142,10 +169,12 @@ function cron {
             <string>errorLog</string>
             <key>UserName</key>
             <string>nameUser</string>
-            <key>GroupName</key>
-            <string>groupName</string>
+            <key>Gr
+    echo
+    echo "Lets make cron job for updating dotfiles (every 3 minutes)"
+    echong>groupName</string>
             <key>InitGroups</key>
-            <true/>
+            <true/>working-dir
             <key>StartInterval</key>
             <integer>secTo</integer>
         </dict>
@@ -163,7 +192,6 @@ function cron {
         sudo sed -i .orig "s|secTo|$checkInterval|g" $ldaemons$projectName.plist
         sudo sed -i .orig "s|pathlist|$user_paths|g" $ldaemons$projectName.plist
 
-
         sudo launchctl load -w $ldaemons$projectName.plist
 
     fi
@@ -174,18 +202,17 @@ function cron {
     if [[ $IS_LINUX -eq 1 ]]; then
         scriptLocation=$dotfiles_script_location/script.sh
         tmpCron=$(mktemp)
-
         #write out current crontab
-        crontab -l > $tmpCron
+        crontab -l >$tmpCron
         #echo new cron into cron file
-        echo "*/3 * * * * sh $scriptLocation  2>&1 | /usr/bin/logger -t dotfile-saver " >> $tmpCron
+        echo "*/3 * * * * sh $scriptLocation  2>&1 | /usr/bin/logger -t dotfile-saver " >>$tmpCron
         #install new cron file
         crontab $tmpCron
         rm $tmpCron
     fi
 }
 
-function finished {
+function finished() {
     echo
     echo "
     Thats it. We will list location of all files:
@@ -201,7 +228,8 @@ function finished {
     echo
 }
 
-function collection {
+function collection() {
+    working-dir
     prerequets
     git_repo
     create_folders
@@ -213,24 +241,18 @@ function collection {
     cron
     finished
 }
-function abort {
-    echo "
-    Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions
-    "
-}
-
 
 read -r -p "Do you wish to install this program? [Y/n] " input
- 
+
 case $input in
-    [yY][eE][sS]|[yY])
-collection
- ;;
-    [nN][oO]|[nN])
-abort
-;;
-    *)
-collection
-exit 0
-;;
+[yY][eE][sS] | [yY])
+    collection
+    ;;
+[nN][oO] | [nN])
+    abort-abort
+    ;;
+*)
+    collection
+    exit 0
+    ;;
 esac
