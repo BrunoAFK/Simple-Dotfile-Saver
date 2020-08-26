@@ -167,6 +167,7 @@ This will add a new file or folder to track inside the .dotfiles-location. Just 
 **dot-remove [LOCATION TO FILE OR FOLDER]**
 This will add a file to gitignore and then clear git cache so that we stop following changes inside that file. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
 
+
 **dot-link**
 This will create a symlink to your backup folder inside the home directory. Just make sure that you are entering the absolute path (e.g. if you have folder Nginx in the etc dir you need to write /etc/nginx). prerequests to this is that you have created .backup directory inside your home directory and that you add .backup directory to your .dotfiles-location file
 
