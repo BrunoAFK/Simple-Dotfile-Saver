@@ -1,13 +1,12 @@
 #!/bin/bash
-working_dir=$HOME
-dotfiles_location=$working_dir/.dotfiles
-dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
 custom_arg1=$1
 custom_arg2=$2
+branch="master"
 # Check working dir param. Change working dir
 function working-dir() {
     if [[ -z $custom_arg1 ]]; then
+        working_dir=$HOME
         echo
         echo "We are using $working_dir as a work tree."
         echo
@@ -37,6 +36,12 @@ function working-dir() {
             exit 1
         fi
     fi
+    # Define other working dirs
+    dotfiles_location=$working_dir/.dotfiles
+    dotfiles_script_location=$working_dir/.dotfiles-updater
+    echo $working_dir
+    echo $dotfiles_location
+    echo $dotfiles_script_location
 }
 # Abort messages if needed
 function abort-prerequests() {
@@ -145,6 +150,8 @@ function git() {
 }
 # Create cron job
 function cron() {
+    echo
+    echo "Creating CRON job for every 3 minutes"
     #******************
     # Mac
     #******************
@@ -190,12 +197,10 @@ function cron() {
             <string>errorLog</string>
             <key>UserName</key>
             <string>nameUser</string>
-            <key>Gr
-    echo
-    echo "Lets make cron job for updating dotfiles (every 3 minutes)"
-    echong>groupName</string>
+            <key>GroupName</key>
+            <string>groupName</string>
             <key>InitGroups</key>
-            <true/>working-dir
+            <true/>
             <key>StartInterval</key>
             <integer>secTo</integer>
         </dict>
