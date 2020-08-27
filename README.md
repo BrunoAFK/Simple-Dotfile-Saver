@@ -62,7 +62,7 @@ You will be asked to enter your git repo URL. It needs to be in this format:
 
 And that's it.
 
-Cron is checking for new updates every 3 minutes.
+Cron is checking for new updates every hour.
 
 #### Custom path
 

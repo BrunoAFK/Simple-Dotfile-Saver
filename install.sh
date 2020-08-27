@@ -39,9 +39,6 @@ function working-dir() {
     # Define other working dirs
     dotfiles_location=$working_dir/.dotfiles
     dotfiles_script_location=$working_dir/.dotfiles-updater
-    echo $working_dir
-    echo $dotfiles_location
-    echo $dotfiles_script_location
 }
 # Abort messages if needed
 function abort-prerequests() {
@@ -151,7 +148,7 @@ function git() {
 # Create cron job
 function cron() {
     echo
-    echo "Creating CRON job for every 3 minutes"
+    echo "Creating CRON job to run every hour"
     #******************
     # Mac
     #******************
@@ -166,7 +163,7 @@ function cron() {
 
         scriptLocation=$dotfiles_script_location/script.sh
         logLocation=/var/log/$projectName
-        checkInterval=200
+        checkInterval=3600
 
         sudo mkdir -p $logLocation
         sudo chown -R $(echo $user_name):$(echo $user_group) $logLocation
@@ -193,13 +190,7 @@ function cron() {
             </array>
             <key>RunAtLoad</key>
             <true/>
-            <key>StandardErrorPath</key>
-            <string>errorLog</string>
-            <key>UserName</key>
-            <string>nameUser</string>
-            <key>GroupName</key>
-            <string>groupName</string>
-            <key>InitGroups</key>
+            <key>StandardErrorPath</key>for every 3 minutes
             <true/>
             <key>StartInterval</key>
             <integer>secTo</integer>
@@ -231,7 +222,7 @@ function cron() {
         #write out current crontab
         crontab -l >$tmpCron
         #echo new cron into cron file
-        echo "*/3 * * * * sh $scriptLocation  2>&1 | /usr/bin/logger -t dotfile-saver " >>$tmpCron
+        echo "0 * * * * sh $scriptLocation  2>&1 | /usr/bin/logger -t dotfile-saver " >>$tmpCron
         #install new cron file
         crontab $tmpCron
         rm $tmpCron
