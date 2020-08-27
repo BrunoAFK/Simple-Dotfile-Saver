@@ -239,6 +239,7 @@ function finished() {
 }
 
 function collection() {
+    echo "START"
     working-dir
     prerequets
     git_repo
