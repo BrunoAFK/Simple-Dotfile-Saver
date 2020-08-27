@@ -1,13 +1,11 @@
 #!/bin/bash
-working_dir=$HOME
-dotfiles_location=$working_dir/.dotfiles
-dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
 custom_arg1=$1
 custom_arg2=$2
 # Check working dir param. Change working dir
 function working-dir() {
     if [[ -z $custom_arg1 ]]; then
+        working_dir=$HOME
         echo
         echo "We are using $working_dir as a work tree."
         echo
@@ -38,6 +36,9 @@ function working-dir() {
         fi
     fi
 }
+# Define other working dirs
+dotfiles_location=$working_dir/.dotfiles
+dotfiles_script_location=$working_dir/.dotfiles-updater
 # Abort messages if needed
 function abort-prerequests() {
     echo
