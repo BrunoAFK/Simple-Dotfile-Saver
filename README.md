@@ -63,7 +63,7 @@ You will be asked to enter your git repo URL. It needs to be in this format:
 
 And that's it.
 
-Cron is checking for new updates every 3 minutes.
+Cron is checking for new updates every hour.
 
 #### Custom path
 
@@ -162,7 +162,7 @@ dot-link () {
 **dot [GIT COMMAND]**:
 I'm using dot command as a shortcut for long git command. If I need to see the status of my dotfiles repo I just need to use ```dot status`` and that's it. You can use this with any git command.
 
-**dot-add [LOCATION TO FILE OR FOLDER]**_
+**dot-add [LOCATION TO FILE OR FOLDER]**:
 This will add a new file or folder to track inside the .dotfiles-location. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
 
 **dot-remove [LOCATION TO FILE OR FOLDER]**:
