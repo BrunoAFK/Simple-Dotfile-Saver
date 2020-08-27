@@ -69,7 +69,7 @@ Cron is checking for new updates every 3 minutes.
 The default command mentioned above, your working tree (main directory) will be your home directory. If you want to change that, you can use this command (and modify the last part with the absolute path you want to use)
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh --dir /path )
+bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh) --dir /path 
 ```
 
 Make sure that you have all permissions as a user for that directory.

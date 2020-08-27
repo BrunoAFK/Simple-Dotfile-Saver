@@ -3,22 +3,24 @@ working_dir=$HOME
 dotfiles_location=$working_dir/.dotfiles
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
+custom_arg1=$1
+custom_arg2=$2
 # Check working dir param. Change working dir
 function working-dir() {
-    if [[ -z $1 ]]; then
+    if [[ -z $custom_arg1 ]]; then
         echo "We are using $working_dir as a work tree."
     else
-        if [[ "$1" = "--dir" || "$1" = "-d" ]]; then
-            if [[ -z $2 ]]; then
+        if [[ "$custom_arg1" = "--dir" || "$custom_arg1" = "-d" ]]; then
+            if [[ -z $custom_arg2 ]]; then
                 echo "You need to enter abosluth path (e.g. /etc/nginx)"
                 exit 1
-            elif [[ "$2" != /* ]]; then
+            elif [[ "$custom_arg2" != /* ]]; then
                 echo "You need to enter abosluth path (e.g. /etc/nginx)"
                 exit 1
             else
-                echo "Work tree. is now $2."
+                echo "Work tree. is now $custom_arg2."
                 echo "Make sure that you have all permissions as a user to use that working directory."
-                working_dir=$2
+                working_dir=$custom_arg2
             fi
         else
             echo "Wrong paramather. You can use --dir [abosluth path to directory] or -d [abosluth path to directory]"
@@ -65,6 +67,7 @@ echo "This script will try to help you out with the backup of your config files 
 echo ""
 # Check prerequets
 function prerequets() {
+    echo "prerequets"
     if [[ ! -x $(which curl) ]]; then
         echo "You need to install curl"
         abort-prerequests
