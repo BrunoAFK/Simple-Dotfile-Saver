@@ -12,6 +12,7 @@ echo "2nd param is $2"
 echo "3rd param is $3"
 # Check working dir param. Change working dir
 function working-dir() {
+    echo "working-dir"
     if [[ -z $1 ]]; then
         working_dir=$HOME
         echo "We are using $working_dir as a work tree."
@@ -73,6 +74,7 @@ echo "This script will try to help you out with the backup of your config files 
 echo ""
 # Check prerequets
 function prerequets() {
+    echo "prerequets"
     if [[ ! -x $(which curl) ]]; then
         echo "You need to install curl"
         abort-prerequests
