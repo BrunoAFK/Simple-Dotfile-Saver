@@ -145,6 +145,8 @@ function git() {
 }
 # Create cron job
 function cron() {
+    echo
+    echo "Creating CRON job for every 3 minutes"
     #******************
     # Mac
     #******************
@@ -190,12 +192,10 @@ function cron() {
             <string>errorLog</string>
             <key>UserName</key>
             <string>nameUser</string>
-            <key>Gr
-    echo
-    echo "Lets make cron job for updating dotfiles (every 3 minutes)"
-    echong>groupName</string>
+            <key>GroupName</key>
+            <string>groupName</string>
             <key>InitGroups</key>
-            <true/>working-dir
+            <true/>
             <key>StartInterval</key>
             <integer>secTo</integer>
         </dict>
