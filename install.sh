@@ -5,16 +5,8 @@ dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
 custom_arg1=$1
 custom_arg2=$2
-#TEST
-echo "Inital working dir is: $working_dir"
-echo "Initial dotfiles location is: $dotfiles_location"
-echo "Inital dotfiles_script location is: $dotfiles_script_location"
-echo "First param is $1"
-echo "2nd param is $2"
-echo "3rd param is $3"
 # Check working dir param. Change working dir
 function working-dir() {
-    echo "working-dir"
     if [[ -z $custom_arg1 ]]; then
         echo "We are using $working_dir as a work tree."
     else
@@ -240,7 +232,6 @@ function finished() {
 }
 
 function collection() {
-    echo "START"
     working-dir
     prerequets
     git_repo

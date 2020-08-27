@@ -69,7 +69,7 @@ Cron is checking for new updates every 3 minutes.
 The default command mentioned above, your working tree (main directory) will be your home directory. If you want to change that, you can use this command (and modify the last part with the absolute path you want to use)
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh --dir /path )
+bash <(curl -s https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/master/install.sh) --dir /path 
 ```
 
 Make sure that you have all permissions as a user for that directory.
@@ -159,7 +159,7 @@ dot-link () {
 ```
 
 **dot [GIT COMMAND]**
-I'm using dot command as a shortcut for long git command. If I need to see the status of my dotfiles repo I just need to use ```dot status`` and that's it. You can use this with any git command.
+I'm using dot command as a shortcut for long git command. If I need to see the status of my dotfiles repo I just need to use ```dot status``` and that's it. You can use this with any git command.
 
 **dot-add [LOCATION TO FILE OR FOLDER]**
 This will add a new file or folder to track inside the .dotfiles-location. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
