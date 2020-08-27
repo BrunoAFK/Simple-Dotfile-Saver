@@ -1,5 +1,5 @@
 #!/bin/bash
-working_dir=$HOME
+
 dotfiles_location=$working_dir/.dotfiles
 dotfiles_script_location=$working_dir/.dotfiles-updater
 git_location=$(which git)
@@ -13,6 +13,7 @@ echo "3rd param is $3"
 # Check working dir param. Change working dir
 function working-dir() {
     if [[ -z $1 ]]; then
+        working_dir=$HOME
         echo "We are using $working_dir as a work tree."
     else
         if [[ "$1" = "--dir" || "$1" = "-d" ]]; then
