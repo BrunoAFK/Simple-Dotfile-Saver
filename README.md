@@ -162,10 +162,10 @@ dot-link () {
 ##### dot [GIT COMMAND]
 I'm using dot command as a shortcut for long git command. If I need to see the status of my dotfiles repo I just need to use ```dot status`` and that's it. You can use this with any git command.
 
-##### dot-add /location/to/file/or/folder
+##### dot-add location/to/file/or/folder
 This will add a new file or folder to track inside the .dotfiles-location. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
 
-##### dot-remove /location/to/file/or/folder
+##### dot-remove location/to/file/or/folder
 This will add a file to gitignore and then clear git cache so that we stop following changes inside that file. Just make sure that you are entering the path from your working dir (e.g. if you have folder .ansible in the home dir you just need to write .ansible)
 
 
