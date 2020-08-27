@@ -15,6 +15,7 @@
   <a href="#basic-description">Basic Description and Idea</a> •
   <a href="#what-are-dotfiles">What are dotfiles</a> •
   <a href="#how-to-use">How to use</a> •
+  <a href="#tips-&-tricks">Tips & Tricks</a> •
   <a href="#authors">Authors</a> •
   <a href="#license">License</a>
 </p>
