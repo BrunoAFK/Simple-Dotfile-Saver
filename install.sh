@@ -2,6 +2,7 @@
 git_location=$(which git)
 custom_arg1=$1
 custom_arg2=$2
+branch="master"
 # Check working dir param. Change working dir
 function working-dir() {
     if [[ -z $custom_arg1 ]]; then
