@@ -8,31 +8,43 @@ custom_arg2=$2
 # Check working dir param. Change working dir
 function working-dir() {
     if [[ -z $custom_arg1 ]]; then
+        echo
         echo "We are using $working_dir as a work tree."
+        echo
     else
         if [[ "$custom_arg1" = "--dir" || "$custom_arg1" = "-d" ]]; then
             if [[ -z $custom_arg2 ]]; then
+                echo
                 echo "You need to enter abosluth path (e.g. /etc/nginx)"
+                echo
                 exit 1
             elif [[ "$custom_arg2" != /* ]]; then
+                echo
                 echo "You need to enter abosluth path (e.g. /etc/nginx)"
+                echo
                 exit 1
             else
+                echo
                 echo "Work tree. is now $custom_arg2."
                 echo "Make sure that you have all permissions as a user to use that working directory."
+                echo
                 working_dir=$custom_arg2
             fi
         else
+            echo
             echo "Wrong paramather. You can use --dir [abosluth path to directory] or -d [abosluth path to directory]"
+            echo
             exit 1
         fi
     fi
 }
 # Abort messages if needed
 function abort-prerequests() {
+    echo
     echo "
     Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions
     "
+    echo
 }
 function abort-abort() {
     echo
@@ -46,14 +58,16 @@ Llama       /|~||
            / / /|
                         
 "
-echo
-echo
-echo "Good bye!"
+    echo
+    echo
+    echo "Good bye!"
 }
 function abort-platform() {
+    echo
     echo "
     Please visit https://github.com/BrunoAFK/simple_dotfile_saver#prerequisites and follow instructions
     "
+    echo
 }
 # Checking OS
 if [[ $(uname) == 'Linux' ]]; then
@@ -63,12 +77,13 @@ if [[ $(uname) == 'Darwin' ]]; then
     IS_MAC=1
 fi
 # Hello
+echo
 echo "This script will try to help you out with the backup of your config files in the UNIX based systems. To find out more, check out git repo page: https://github.com/BrunoAFK/simple_dotfile_saver"
 echo ""
 # Check prerequets
 function prerequets() {
-    echo "prerequets"
     if [[ ! -x $(which curl) ]]; then
+        echo
         echo "You need to install curl"
         abort-prerequests
         exit 1
@@ -82,14 +97,16 @@ function prerequets() {
 # Check if git repo exsits
 function git_repo() {
     gir_repo=
+    echo
     read -r -p "Enter valid git repo URL: " git_repo
     $git_location ls-remote "$git_repo" >/dev/null 2>&1
     if [ "$?" -ne 0 ]; then
+        echo
         echo "[ERROR] Unable to access from '$git_repo'"
         abort-prerequests
         exit 1
     else
-        echo 
+        echo
     fi
 }
 # Create folders
@@ -97,8 +114,9 @@ function create_folders() {
     mkdir -p $dotfiles_location
     mkdir -p $dotfiles_script_location
 }
-# Copy script from git
+# Copy script from git 
 function copy_files() {
+    echo
     curl -o $dotfiles_script_location/script.sh https://raw.githubusercontent.com/BrunoAFK/simple_dotfile_saver/$branch/script.sh
 }
 # Set permissions for the script
