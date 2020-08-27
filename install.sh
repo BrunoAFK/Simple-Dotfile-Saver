@@ -36,9 +36,13 @@ function working-dir() {
         fi
     fi
 }
+
 # Define other working dirs
 dotfiles_location=$working_dir/.dotfiles
 dotfiles_script_location=$working_dir/.dotfiles-updater
+echo $working_dir
+echo $dotfiles_location
+echo $dotfiles_script_location
 # Abort messages if needed
 function abort-prerequests() {
     echo
